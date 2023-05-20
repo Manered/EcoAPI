@@ -1,9 +1,9 @@
-package dev.manere.utils;
+package dev.manere.ecoapi.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Color {
+public class ColorUtils {
     /**
      * Translates color codes in a message to their corresponding Minecraft formatting codes.
      *
