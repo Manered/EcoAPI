@@ -7,9 +7,18 @@ public class AmountParser {
             char suffix = amountString.charAt(amountString.length() - 1);
             double amount = Double.parseDouble(amountString.substring(0, amountString.length() - 1));
             switch (suffix) {
-                case 'k', 'K' -> amount *= 1000;
-                case 'm', 'M' -> amount *= 1000000;
-                case 'b', 'B' -> amount *= 1000000000;
+                case 'k':
+                case 'K':
+                    amount *= 1000;
+                    break;
+                case 'm':
+                case 'M':
+                    amount *= 1000000;
+                    break;
+                case 'b':
+                case 'B':
+                    amount *= 1000000000;
+                    break;
             }
             return amount;
         } else {
