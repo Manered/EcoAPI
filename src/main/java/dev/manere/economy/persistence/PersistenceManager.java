@@ -2,6 +2,7 @@ package dev.manere.economy.persistence;
 
 import dev.manere.economy.EconomyAPIPlugin;
 import dev.manere.economy.EconomyPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -19,7 +20,7 @@ import java.util.UUID;
  */
 public class PersistenceManager {
 
-    public final EconomyAPIPlugin economyAPIPlugin = new EconomyAPIPlugin();
+    private final EconomyAPIPlugin economyAPIPlugin = (EconomyAPIPlugin) Bukkit.getPluginManager().getPlugin("EconomyPlugin");
     private final File dataFolder;
     private final Map<UUID, EconomyPlayer> playerData;
 

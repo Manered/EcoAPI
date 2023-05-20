@@ -2,6 +2,7 @@ package dev.manere.economy.commands;
 
 import dev.manere.economy.EconomyAPIPlugin;
 import dev.manere.utils.Color;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -12,7 +13,7 @@ import org.bukkit.entity.Player;
 @CommandInfo(name = "balance", permission = "economy.balance", onlyPlayersCanExecute = false)
 public class BalanceCommand extends BaseCommand {
 
-    private final EconomyAPIPlugin economyAPIPlugin = new EconomyAPIPlugin();
+    private final EconomyAPIPlugin economyAPIPlugin = (EconomyAPIPlugin) Bukkit.getPluginManager().getPlugin("EconomyPlugin");
 
     /**
      * Executes the balance command for a command sender.

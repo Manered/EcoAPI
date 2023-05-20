@@ -1,12 +1,13 @@
 package dev.manere.economy;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class EconomyPlaceholderHook extends PlaceholderExpansion {
 
-    private final EconomyAPIPlugin economyAPIPlugin = new EconomyAPIPlugin();
+    private final EconomyAPIPlugin economyAPIPlugin = (EconomyAPIPlugin) Bukkit.getPluginManager().getPlugin("EconomyPlugin");
 
     @Override
     public boolean persist() {
