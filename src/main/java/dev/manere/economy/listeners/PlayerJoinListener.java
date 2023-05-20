@@ -10,11 +10,7 @@ import java.util.UUID;
 
 public class PlayerJoinListener implements Listener {
 
-    private final PersistenceManager persistenceManager;
-
-    public PlayerJoinListener(PersistenceManager persistenceManager) {
-        this.persistenceManager = persistenceManager;
-    }
+    private final PersistenceManager persistenceManager = new PersistenceManager();
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
@@ -22,6 +18,8 @@ public class PlayerJoinListener implements Listener {
         UUID playerId = player.getUniqueId();
 
         // Set balance, which then creates the players data file.
-        persistenceManager.setBalance(playerId, 0.0);
+        if (!event.getPlayer().hasPlayedBefore()) {
+            persistenceManager.setBalance(playerId, 0.0);
+        }
     }
 }

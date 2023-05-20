@@ -20,7 +20,7 @@ public class EconomyAPIPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         // Initialize the plugin and persistence manager
-        persistenceManager = new PersistenceManager(this);
+        persistenceManager = new PersistenceManager();
 
         // Load all player data from YML files
         File playersFolder = new File(this.getDataFolder(), "players");
@@ -38,13 +38,13 @@ public class EconomyAPIPlugin extends JavaPlugin {
         int pluginId = 18515; // <-- Replace with the id of your plugin!
         Metrics metrics = new Metrics(this, pluginId);
 
-        economyPlaceholderHook = new EconomyPlaceholderHook(this);
+        economyPlaceholderHook = new EconomyPlaceholderHook();
         economyPlaceholderHook.register();
 
-        getServer().getPluginManager().registerEvents(new PlayerJoinListener(persistenceManager), this);
+        getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
 
         // Register command and event listeners
-        getCommand("balance").setExecutor(new BalanceCommand(this));
+        getCommand("balance").setExecutor(new BalanceCommand());
     }
 
     /**

@@ -6,15 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class EconomyPlaceholderHook extends PlaceholderExpansion {
 
-    private final EconomyAPIPlugin plugin;
-
-    /**
-     * Constructs a new EconomyPlaceholderHook instance.
-     * @param plugin the main plugin instance
-     */
-    public EconomyPlaceholderHook(EconomyAPIPlugin plugin) {
-        this.plugin = plugin;
-    }
+    private final EconomyAPIPlugin economyAPIPlugin = new EconomyAPIPlugin();
 
     @Override
     public boolean persist() {
@@ -28,7 +20,7 @@ public class EconomyPlaceholderHook extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getAuthor() {
-        return plugin.getDescription().getAuthors().toString();
+        return economyAPIPlugin.getDescription().getAuthors().toString();
     }
 
     @Override
@@ -38,7 +30,7 @@ public class EconomyPlaceholderHook extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getVersion() {
-        return plugin.getDescription().getVersion();
+        return economyAPIPlugin.getDescription().getVersion();
     }
 
     /**
@@ -54,8 +46,8 @@ public class EconomyPlaceholderHook extends PlaceholderExpansion {
         }
 
         if (identifier.equals("balance")) {
-            plugin.getPersistenceManager().loadPlayerData(player.getUniqueId());
-            double balance = plugin.getPersistenceManager().getPlayerData(player.getUniqueId()).getBalance();
+            economyAPIPlugin.getPersistenceManager().loadPlayerData(player.getUniqueId());
+            double balance = economyAPIPlugin.getPersistenceManager().getPlayerData(player.getUniqueId()).getBalance();
             return String.format("%.2f", balance);
         }
 

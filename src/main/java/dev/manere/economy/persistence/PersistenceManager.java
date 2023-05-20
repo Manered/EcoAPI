@@ -19,17 +19,15 @@ import java.util.UUID;
  */
 public class PersistenceManager {
 
-    private final EconomyAPIPlugin plugin;
+    public final EconomyAPIPlugin economyAPIPlugin = new EconomyAPIPlugin();
     private final File dataFolder;
     private final Map<UUID, EconomyPlayer> playerData;
 
     /**
      * Constructs a PersistenceManager instance.
-     * @param plugin the EconomyAPIPlugin instance
      */
-    public PersistenceManager(EconomyAPIPlugin plugin) {
-        this.plugin = plugin;
-        this.dataFolder = plugin.getDataFolder();
+    public PersistenceManager() {
+        this.dataFolder = economyAPIPlugin.getDataFolder();
         this.playerData = new HashMap<>();
     }
 
@@ -48,7 +46,7 @@ public class PersistenceManager {
         try {
             playerConfig.save(playerFile);
         } catch (IOException e) {
-            plugin.getLogger().warning("Failed to save player data for UUID: " + playerId);
+            economyAPIPlugin.getLogger().warning("Failed to save player data for UUID: " + playerId);
             e.printStackTrace();
         }
     }
@@ -67,7 +65,7 @@ public class PersistenceManager {
         try {
             playerConfig.load(playerFile);
         } catch (IOException | InvalidConfigurationException e) {
-            plugin.getLogger().warning("Failed to load player data for UUID: " + playerId);
+            economyAPIPlugin.getLogger().warning("Failed to load player data for UUID: " + playerId);
             e.printStackTrace();
             return;
         }
@@ -106,7 +104,7 @@ public class PersistenceManager {
                     economyPlayer.setBalance(balance);
                 }
             } catch (IOException | InvalidConfigurationException e) {
-                plugin.getLogger().warning("Failed to load player data for UUID: " + playerId);
+                economyAPIPlugin.getLogger().warning("Failed to load player data for UUID: " + playerId);
                 e.printStackTrace();
             }
             playerData.put(playerId, economyPlayer);
@@ -164,7 +162,7 @@ public class PersistenceManager {
             savePlayerData(senderId);
             savePlayerData(receiverId);
         } else {
-            plugin.getLogger().warning("Transfer failed: sender does not have enough balance");
+            economyAPIPlugin.getLogger().warning("Transfer failed: sender does not have enough balance");
         }
     }
 

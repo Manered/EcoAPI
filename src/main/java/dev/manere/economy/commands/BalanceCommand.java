@@ -12,15 +12,7 @@ import org.bukkit.entity.Player;
 @CommandInfo(name = "balance", permission = "economy.balance", onlyPlayersCanExecute = false)
 public class BalanceCommand extends BaseCommand {
 
-    private final EconomyAPIPlugin plugin;
-
-    /**
-     * Constructs a BalanceCommand instance.
-     * @param plugin the EconomyAPIPlugin instance
-     */
-    public BalanceCommand(EconomyAPIPlugin plugin) {
-        this.plugin = plugin;
-    }
+    private final EconomyAPIPlugin economyAPIPlugin = new EconomyAPIPlugin();
 
     /**
      * Executes the balance command for a command sender.
@@ -34,23 +26,23 @@ public class BalanceCommand extends BaseCommand {
                 sender.sendMessage(Color.translate("#fa0a26Only players can execute /balance with no arguments."));
             } else {
                 Player player = (Player) sender;
-                plugin.getPersistenceManager().loadPlayerData(player.getUniqueId());
-                double balance = plugin.getPersistenceManager().getPlayerData(player.getUniqueId()).getBalance();
+                economyAPIPlugin.getPersistenceManager().loadPlayerData(player.getUniqueId());
+                double balance = economyAPIPlugin.getPersistenceManager().getPlayerData(player.getUniqueId()).getBalance();
                 String formattedBalance = formatBalance(balance);
 
                 sender.sendMessage(Color.translate("#00ff00&l$ &fBalance&7: #00ff00" + formattedBalance));
             }
         } else if (args.length == 1) {
             String playerName = args[0];
-            Player targetPlayer = plugin.getServer().getPlayerExact(playerName);
+            Player targetPlayer = economyAPIPlugin.getServer().getPlayerExact(playerName);
 
             if (targetPlayer == null) {
                 sender.sendMessage(Color.translate("#fa0a26Player not found."));
                 return;
             }
 
-            plugin.getPersistenceManager().loadPlayerData(targetPlayer.getUniqueId());
-            double balance = plugin.getPersistenceManager().getPlayerData(targetPlayer.getUniqueId()).getBalance();
+            economyAPIPlugin.getPersistenceManager().loadPlayerData(targetPlayer.getUniqueId());
+            double balance = economyAPIPlugin.getPersistenceManager().getPlayerData(targetPlayer.getUniqueId()).getBalance();
             String formattedBalance = formatBalance(balance);
 
             sender.sendMessage(Color.translate("#00ff00&l$ &f" + targetPlayer.getName() + "'s Balance&7: #00ff00" + formattedBalance));
