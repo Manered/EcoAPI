@@ -1,7 +1,7 @@
 package dev.manere.economy.commands;
 
 import dev.manere.economy.EconomyAPIPlugin;
-import org.bukkit.ChatColor;
+import dev.manere.utils.Color;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -18,14 +18,14 @@ public class BalanceCommand extends BaseCommand {
     public void execute(CommandSender sender, String[] args) {
         if (args.length == 0) {
             if (!(sender instanceof Player)) {
-                sender.sendMessage(ChatColor.RED + "Only players can execute /balance with no arguments.");
+                sender.sendMessage(Color.translate("#fa0a26Only players can execute /balance with no arguments."));
             } else {
                 Player player = (Player) sender;
                 plugin.getPersistenceManager().loadPlayerData(player.getUniqueId());
                 double balance = plugin.getPersistenceManager().getPlayerData(player.getUniqueId()).getBalance();
                 String formattedBalance = formatBalance(balance);
 
-                sender.sendMessage(ChatColor.WHITE + "Balance: " + ChatColor.translateAlternateColorCodes('&', formattedBalance));
+                sender.sendMessage(Color.translate("#00ff00&l$ &fBalance&7: #00ff00" + formattedBalance));
             }
         } else if (args.length == 1) {
 
@@ -33,7 +33,7 @@ public class BalanceCommand extends BaseCommand {
             Player targetPlayer = plugin.getServer().getPlayerExact(playerName);
 
             if (targetPlayer == null) {
-                sender.sendMessage(ChatColor.RED + "Player not found.");
+                sender.sendMessage(Color.translate("Player not found."));
                 return;
             }
 
@@ -41,13 +41,13 @@ public class BalanceCommand extends BaseCommand {
             double balance = plugin.getPersistenceManager().getPlayerData(targetPlayer.getUniqueId()).getBalance();
             String formattedBalance = formatBalance(balance);
 
-            sender.sendMessage(ChatColor.WHITE + targetPlayer.getName() + "'s Balance: " + ChatColor.translateAlternateColorCodes('&', formattedBalance));
+            sender.sendMessage(Color.translate(targetPlayer.getName() + "'s Balance: " + formattedBalance));
         } else {
-            sender.sendMessage(ChatColor.RED + "Usage: /balance [player]");
+            sender.sendMessage(Color.translate("Usage: /balance [player]"));
         }
     }
 
     private String formatBalance(double balance) {
-        return String.format("&a$%.2f", balance);
+        return String.format("$%.2f", balance);
     }
 }

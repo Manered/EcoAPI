@@ -1,5 +1,6 @@
 package dev.manere.economy;
 
+import dev.manere.economy.bstats.Metrics;
 import dev.manere.economy.commands.BalanceCommand;
 import dev.manere.economy.persistence.PersistenceManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -8,8 +9,6 @@ import java.io.File;
 import java.util.UUID;
 
 public class EconomyAPIPlugin extends JavaPlugin {
-
-    private EconomyManager economyManager;
     private PersistenceManager persistenceManager;
     private EconomyPlaceholderHook economyPlaceholderHook;
 
@@ -31,6 +30,9 @@ public class EconomyAPIPlugin extends JavaPlugin {
             }
         }
 
+        int pluginId = 18515; // <-- Replace with the id of your plugin!
+        Metrics metrics = new Metrics(this, pluginId);
+
         economyPlaceholderHook = new EconomyPlaceholderHook(this);
         economyPlaceholderHook.register();
 
@@ -41,10 +43,6 @@ public class EconomyAPIPlugin extends JavaPlugin {
     @Override
     public void onDisable() {
         economyPlaceholderHook.unregister();
-    }
-
-    public EconomyManager getEconomyManager() {
-        return economyManager;
     }
 
     public PersistenceManager getPersistenceManager() {

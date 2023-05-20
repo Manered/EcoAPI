@@ -17,4 +17,3 @@ commands:
     permission: economy.balance
     aliases:
       - bal
-      - playerbalance

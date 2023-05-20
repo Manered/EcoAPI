@@ -1,5 +1,6 @@
 package dev.manere.economy.commands;
 
+import dev.manere.utils.Color;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -25,14 +26,14 @@ public abstract class BaseCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
         if (!getCommand().permission().isEmpty()) {
             if (!sender.hasPermission(commandInfo.permission())) {
-                sender.sendMessage(ChatColor.RED + "You don't have permission to execute this command.");
+                sender.sendMessage(Color.translate("#fa0a26You don't have permission to execute this command."));
                 return true;
             }
         }
 
         if (commandInfo.onlyPlayersCanExecute()) {
             if (!(sender instanceof Player)) {
-                sender.sendMessage(ChatColor.RED + "Only players can execute this command.");
+                sender.sendMessage(Color.translate("#fa0a26Only players can execute this command."));
                 return true;
             }
 

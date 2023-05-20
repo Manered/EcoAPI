@@ -138,4 +138,11 @@ public class PersistenceManager {
         savePlayerData(playerId);
     }
 
+    public void removeFromBalance(UUID playerId, double amount) {
+        EconomyPlayer economyPlayer = getPlayerData(playerId);
+        double newBalance = economyPlayer.getBalance() - amount;
+        economyPlayer.setBalance(newBalance);
+        savePlayerData(playerId);
+    }
+
 }
