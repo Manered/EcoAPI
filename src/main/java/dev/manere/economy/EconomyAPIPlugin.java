@@ -2,6 +2,7 @@ package dev.manere.economy;
 
 import dev.manere.economy.bstats.Metrics;
 import dev.manere.economy.commands.BalanceCommand;
+import dev.manere.economy.listeners.PlayerJoinListener;
 import dev.manere.economy.persistence.PersistenceManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -39,6 +40,8 @@ public class EconomyAPIPlugin extends JavaPlugin {
 
         economyPlaceholderHook = new EconomyPlaceholderHook(this);
         economyPlaceholderHook.register();
+
+        getServer().getPluginManager().registerEvents(new PlayerJoinListener(persistenceManager), this);
 
         // Register command and event listeners
         getCommand("balance").setExecutor(new BalanceCommand(this));
