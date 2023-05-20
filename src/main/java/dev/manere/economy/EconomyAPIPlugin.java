@@ -12,6 +12,10 @@ public class EconomyAPIPlugin extends JavaPlugin {
     private PersistenceManager persistenceManager;
     private EconomyPlaceholderHook economyPlaceholderHook;
 
+    /**
+     * Called when the plugin is enabled.
+     * Initializes the plugin and persistence manager, loads player data, and registers command and event listeners.
+     */
     @Override
     public void onEnable() {
         // Initialize the plugin and persistence manager
@@ -40,11 +44,19 @@ public class EconomyAPIPlugin extends JavaPlugin {
         getCommand("balance").setExecutor(new BalanceCommand(this));
     }
 
+    /**
+     * Called when the plugin is disabled.
+     * Unregisters the economy placeholder hook.
+     */
     @Override
     public void onDisable() {
         economyPlaceholderHook.unregister();
     }
 
+    /**
+     * Retrieves the persistence manager instance.
+     * @return the persistence manager instance
+     */
     public PersistenceManager getPersistenceManager() {
         return persistenceManager;
     }

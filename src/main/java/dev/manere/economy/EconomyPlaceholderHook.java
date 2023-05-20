@@ -8,6 +8,10 @@ public class EconomyPlaceholderHook extends PlaceholderExpansion {
 
     private final EconomyAPIPlugin plugin;
 
+    /**
+     * Constructs a new EconomyPlaceholderHook instance.
+     * @param plugin the main plugin instance
+     */
     public EconomyPlaceholderHook(EconomyAPIPlugin plugin) {
         this.plugin = plugin;
     }
@@ -24,7 +28,7 @@ public class EconomyPlaceholderHook extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getAuthor() {
-        return "Your Name";
+        return plugin.getDescription().getAuthors().toString();
     }
 
     @Override
@@ -34,9 +38,15 @@ public class EconomyPlaceholderHook extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getVersion() {
-        return "1.0";
+        return plugin.getDescription().getVersion();
     }
 
+    /**
+     * Retrieves the value of the requested placeholder.
+     * @param player the player to retrieve the placeholder value for
+     * @param identifier the identifier of the placeholder
+     * @return the value of the placeholder, or null if not found
+     */
     @Override
     public String onPlaceholderRequest(Player player, @NotNull String identifier) {
         if (player == null) {
@@ -44,6 +54,7 @@ public class EconomyPlaceholderHook extends PlaceholderExpansion {
         }
 
         if (identifier.equals("balance")) {
+            plugin.getPersistenceManager().loadPlayerData(player.getUniqueId());
             double balance = plugin.getPersistenceManager().getPlayerData(player.getUniqueId()).getBalance();
             return String.format("%.2f", balance);
         }
