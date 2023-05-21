@@ -22,7 +22,7 @@ public class AmountParser {
             }
             return amount;
         } else {
-            throw new NumberFormatException("Invalid amount format: " + amountString);
+            throw new NumberFormatException(ColorUtils.translate("#ff0000Invalid amount format: " + amountString));
         }
     }
 

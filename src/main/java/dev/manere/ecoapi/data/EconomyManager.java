@@ -2,6 +2,7 @@ package dev.manere.ecoapi.data;
 
 import dev.manere.ecoapi.exceptions.EconomyDataException;
 import dev.manere.ecoapi.model.PlayerData;
+import dev.manere.ecoapi.util.ColorUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +24,7 @@ public class EconomyManager {
                     return new PlayerData(playerUuid, balance);
                 }
             } catch (IOException | NumberFormatException e) {
-                throw new EconomyDataException("Failed to retrieve player data for UUID: " + uuid, e);
+                throw new EconomyDataException(ColorUtils.translate("#ff0000Failed to retrieve player data for UUID: " + uuid), e);
             }
         }
 
@@ -37,7 +38,7 @@ public class EconomyManager {
         try {
             Files.writeString(playerDataFile, data);
         } catch (IOException e) {
-            throw new EconomyDataException("Failed to save player data for UUID: " + playerData.getUuid(), e);
+            throw new EconomyDataException(ColorUtils.translate("#ff0000Failed to save player data for UUID: " + playerData.getUuid()), e);
         }
     }
 
@@ -46,7 +47,7 @@ public class EconomyManager {
         try {
             Files.deleteIfExists(playerDataFile);
         } catch (IOException e) {
-            throw new EconomyDataException("Failed to delete player data for UUID: " + uuid, e);
+            throw new EconomyDataException(ColorUtils.translate("#ff0000Failed to delete player data for UUID: " + uuid), e);
         }
     }
 

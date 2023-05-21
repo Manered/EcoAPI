@@ -6,6 +6,7 @@ import dev.manere.ecoapi.exceptions.InsufficientFundsException;
 import dev.manere.ecoapi.exceptions.InvalidAmountException;
 import dev.manere.ecoapi.model.PlayerData;
 import dev.manere.ecoapi.util.AmountParser;
+import dev.manere.ecoapi.util.ColorUtils;
 
 public class EconomyAPI {
     private final EconomyManager economyManager;
@@ -28,7 +29,7 @@ public class EconomyAPI {
     public void deposit(String uuid, String amount) throws InvalidAmountException, EconomyDataException {
         double parsedAmount = AmountParser.parseAmount(amount);
         if (parsedAmount <= 0) {
-            throw new InvalidAmountException("Invalid deposit amount: " + amount);
+            throw new InvalidAmountException(ColorUtils.translate("#ff0000Invalid deposit amount: " + amount));
         }
 
         PlayerData playerData = economyManager.getPlayerData(uuid);
@@ -40,13 +41,13 @@ public class EconomyAPI {
     public void withdraw(String uuid, String amount) throws InvalidAmountException, InsufficientFundsException, EconomyDataException {
         double parsedAmount = AmountParser.parseAmount(amount);
         if (parsedAmount <= 0) {
-            throw new InvalidAmountException("Invalid withdrawal amount: " + amount);
+            throw new InvalidAmountException(ColorUtils.translate("#ff0000Invalid withdrawal amount: " + amount));
         }
 
         PlayerData playerData = economyManager.getPlayerData(uuid);
         double currentBalance = playerData.getBalance();
         if (parsedAmount > currentBalance) {
-            throw new InsufficientFundsException("Insufficient funds for withdrawal: " + amount);
+            throw new InsufficientFundsException(ColorUtils.translate("#ff0000Insufficient funds for withdrawal: " + amount));
         }
 
         double newBalance = currentBalance - parsedAmount;
@@ -58,13 +59,13 @@ public class EconomyAPI {
             throws InvalidAmountException, InsufficientFundsException, EconomyDataException {
         double parsedAmount = AmountParser.parseAmount(amount);
         if (parsedAmount <= 0) {
-            throw new InvalidAmountException("Invalid transfer amount: " + amount);
+            throw new InvalidAmountException(ColorUtils.translate("#ff0000Invalid transfer amount: " + amount));
         }
 
         PlayerData senderData = economyManager.getPlayerData(senderUuid);
         double senderBalance = senderData.getBalance();
         if (parsedAmount > senderBalance) {
-            throw new InsufficientFundsException("Insufficient funds for transfer: " + amount);
+            throw new InsufficientFundsException(ColorUtils.translate("#ff0000Insufficient funds for transfer: " + amount));
         }
 
         PlayerData recipientData = economyManager.getPlayerData(recipientUuid);
