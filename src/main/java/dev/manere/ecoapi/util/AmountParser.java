@@ -33,9 +33,10 @@ public class AmountParser {
             return String.format("%.1fM", amount / 1000000);
         } else if (amount >= 1000) {
             return String.format("%.1fK", amount / 1000);
+        } else if (amount % 1 == 0) { // Check if the amount is an integer
+            return String.format("%.0f", amount); // Use "%.0f" for integers
         } else {
             return String.format("%.2f", amount);
         }
     }
-
 }
