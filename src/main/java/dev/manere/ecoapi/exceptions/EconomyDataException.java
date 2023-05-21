@@ -1,11 +1,16 @@
 package dev.manere.ecoapi.exceptions;
 
-public class EconomyDataException extends Exception {
+/**
+ * Exception thrown when there is an error with economy data.
+ */
+public class EconomyDataException extends RuntimeException {
+
+    /**
+     * Constructs an instance of EconomyDataException.
+     *
+     * @param message the exception message
+     */
     public EconomyDataException(String message) {
         super(message);
-    }
-
-    public EconomyDataException(String message, Throwable cause) {
-        super(message, cause);
     }
 }

@@ -3,17 +3,25 @@ package dev.manere.ecoapi.util;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Utility class for color-related operations.
+ */
 public class ColorUtils {
+
+    private ColorUtils() {
+        // Private constructor to prevent instantiation
+    }
+
     /**
-     * Translates color codes in a message to their corresponding Minecraft formatting codes.
+     * Translates the color codes in a string to the appropriate format for display.
      *
-     * @param message the input message containing color codes
-     * @return the translated message with Minecraft formatting codes
+     * @param message the message string containing color codes
+     * @return the translated message string
      */
     public static String translate(String message) {
         final Pattern colorPattern = Pattern.compile("(#[A-Fa-f0-9]{6})|(&[0-9a-fk-or])");
         Matcher matcher = colorPattern.matcher(message);
-        StringBuffer buffer = new StringBuffer(message.length() + 4 * 8);
+        StringBuilder buffer = new StringBuilder(message.length() + 4 * 8);
 
         // Track the current active color
         String activeColor = null;

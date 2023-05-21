@@ -1,6 +1,15 @@
 package dev.manere.ecoapi.exceptions;
 
-public class InvalidAmountException extends Exception {
+/**
+ * Exception thrown when an invalid amount is encountered.
+ */
+public class InvalidAmountException extends RuntimeException {
+
+    /**
+     * Constructs an instance of InvalidAmountException.
+     *
+     * @param message the exception message
+     */
     public InvalidAmountException(String message) {
         super(message);
     }

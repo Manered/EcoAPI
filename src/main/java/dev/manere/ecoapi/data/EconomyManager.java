@@ -4,59 +4,75 @@ import dev.manere.ecoapi.exceptions.EconomyDataException;
 import dev.manere.ecoapi.model.PlayerData;
 import dev.manere.ecoapi.util.ColorUtils;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 
+/**
+ * Manages the economy data for players.
+ */
 public class EconomyManager {
-    private static final String DATA_FOLDER = "data/players/";
+    private final Map<String, PlayerData> playerDataMap;
+    private final String dataFolderPath;
 
-    public PlayerData getPlayerData(String uuid) throws EconomyDataException {
-        Path playerDataFile = getPlayerDataFile(uuid);
-        if (Files.exists(playerDataFile)) {
+    /**
+     * Constructs an instance of EconomyManager.
+     */
+    public EconomyManager() throws EconomyDataException {
+        this.playerDataMap = new HashMap<>();
+        this.dataFolderPath = "data/";
+
+        // Create data folder if it doesn't exist
+        try {
+            Files.createDirectories(Path.of(dataFolderPath));
+        } catch (IOException e) {
+            throw new EconomyDataException(ColorUtils.translate("#ff0000Failed to create data folder: " + dataFolderPath));
+        }
+    }
+
+    /**
+     * Retrieves the player data for the given UUID.
+     *
+     * @param uuid the UUID of the player
+     * @return the PlayerData object for the player
+     */
+    public synchronized PlayerData getPlayerData(String uuid) {
+        return playerDataMap.computeIfAbsent(uuid, k -> {
             try {
-                String data = Files.readString(playerDataFile);
-                String[] parts = data.split(":");
-                if (parts.length == 2) {
-                    String playerUuid = parts[0];
-                    double balance = Double.parseDouble(parts[1]);
-                    return new PlayerData(playerUuid, balance);
-                }
-            } catch (IOException | NumberFormatException e) {
-                throw new EconomyDataException(ColorUtils.translate("#ff0000Failed to retrieve player data for UUID: " + uuid), e);
+                return loadPlayerData(uuid);
+            } catch (EconomyDataException e) {
+                throw new RuntimeException(e);
             }
-        }
-
-        // Player data not found, return a new PlayerData object with default values
-        return new PlayerData(uuid, 0);
+        });
     }
 
-    public void savePlayerData(PlayerData playerData) throws EconomyDataException {
-        String data = playerData.getUuid() + ":" + playerData.getBalance();
-        Path playerDataFile = getPlayerDataFile(playerData.getUuid());
-        try {
-            Files.writeString(playerDataFile, data);
+    private PlayerData loadPlayerData(String uuid) throws EconomyDataException {
+        String fileName = dataFolderPath + uuid + ".dat";
+        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(fileName))) {
+            return (PlayerData) inputStream.readObject();
+        } catch (FileNotFoundException e) {
+            // Player data file doesn't exist, create a new one
+            PlayerData playerData = new PlayerData(uuid);
+            savePlayerData(playerData);
+            return playerData;
+        } catch (IOException | ClassNotFoundException e) {
+            throw new EconomyDataException(ColorUtils.translate("#ff0000Failed to load player data: " + uuid));
+        }
+    }
+
+    /**
+     * Saves the player data.
+     *
+     * @param playerData the PlayerData object to be saved
+     */
+    public synchronized void savePlayerData(PlayerData playerData) throws EconomyDataException {
+        String fileName = dataFolderPath + playerData.getUuid() + ".dat";
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(fileName))) {
+            outputStream.writeObject(playerData);
         } catch (IOException e) {
-            throw new EconomyDataException(ColorUtils.translate("#ff0000Failed to save player data for UUID: " + playerData.getUuid()), e);
+            throw new EconomyDataException(ColorUtils.translate("#ff0000Failed to save player data: " + playerData.getUuid()));
         }
-    }
-
-    public void deletePlayerData(String uuid) throws EconomyDataException {
-        Path playerDataFile = getPlayerDataFile(uuid);
-        try {
-            Files.deleteIfExists(playerDataFile);
-        } catch (IOException e) {
-            throw new EconomyDataException(ColorUtils.translate("#ff0000Failed to delete player data for UUID: " + uuid), e);
-        }
-    }
-
-    private Path getPlayerDataFile(String uuid) {
-        File dataFolder = new File(DATA_FOLDER);
-        if (!dataFolder.exists()) {
-            dataFolder.mkdirs();
-        }
-
-        return Path.of(DATA_FOLDER, uuid + ".dat");
     }
 }
