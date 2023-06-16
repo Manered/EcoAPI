@@ -1,16 +1,20 @@
 package dev.manere.ecoapi.exceptions;
 
+import dev.manere.ecoapi.util.ColorUtils;
+
 /**
  * Exception thrown when there is an error with economy data.
  */
-public class EconomyDataException extends RuntimeException {
+public class EcoDataException extends RuntimeException {
 
     /**
      * Constructs an instance of EconomyDataException.
      *
      * @param message the exception message
      */
-    public EconomyDataException(String message) {
-        super(message);
+    public EcoDataException(String message) {
+        super(
+                ColorUtils.translate(message)
+        );
     }
 }

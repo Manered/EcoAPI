@@ -1,5 +1,7 @@
 package dev.manere.ecoapi.exceptions;
 
+import dev.manere.ecoapi.util.ColorUtils;
+
 /**
  * Exception thrown when an invalid amount is encountered.
  */
@@ -11,6 +13,8 @@ public class InvalidAmountException extends RuntimeException {
      * @param message the exception message
      */
     public InvalidAmountException(String message) {
-        super(message);
+        super(
+                ColorUtils.translate(message)
+        );
     }
 }

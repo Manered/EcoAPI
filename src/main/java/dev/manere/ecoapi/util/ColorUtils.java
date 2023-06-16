@@ -54,7 +54,4 @@ public class ColorUtils {
 
         return matcher.appendTail(buffer).toString();
     }
-
-
-
 }

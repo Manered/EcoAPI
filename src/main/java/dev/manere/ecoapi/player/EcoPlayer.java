@@ -1,22 +1,16 @@
-package dev.manere.ecoapi.model;
+package dev.manere.ecoapi.player;
 
-import java.io.Serializable;
-
-/**
- * Represents a player's economy data.
- */
-public class PlayerData implements Serializable {
+public class EcoPlayer {
     private final String uuid;
     private double balance;
-
     /**
      * Constructs an instance of PlayerData.
      *
      * @param uuid the UUID of the player
      */
-    public PlayerData(String uuid) {
+    public EcoPlayer(String uuid, double balance) {
         this.uuid = uuid;
-        this.balance = 0;
+        this.balance = balance;
     }
 
     /**

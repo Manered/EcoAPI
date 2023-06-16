@@ -38,7 +38,7 @@ public class AmountParser {
             }
             return amount;
         } else {
-            throw new InvalidAmountException(ColorUtils.translate("#ff0000Invalid amount format: " + amountString));
+            throw new InvalidAmountException(ColorUtils.translate("Invalid amount format: " + amountString));
         }
     }
 }
