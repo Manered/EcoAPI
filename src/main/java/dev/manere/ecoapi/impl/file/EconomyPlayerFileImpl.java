@@ -13,7 +13,6 @@ import java.util.UUID;
  * Implementation of the {@link EconomyPlayerFile} interface for managing player data files.
  */
 public class EconomyPlayerFileImpl implements EconomyPlayerFile {
-    // The associated player
     private final EconomyPlayer player;
 
     /**

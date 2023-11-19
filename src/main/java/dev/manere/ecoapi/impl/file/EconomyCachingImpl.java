@@ -1,22 +1,22 @@
 package dev.manere.ecoapi.impl.file;
 
-import dev.manere.ecoapi.init.Economy;
 import dev.manere.ecoapi.api.file.EconomyCaching;
-import dev.manere.ecoapi.init.EconomyInitializer;
 import dev.manere.ecoapi.impl.EconomyPlayer;
+import dev.manere.ecoapi.init.Economy;
+import dev.manere.ecoapi.init.EconomyInitializer;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Implementation of the {@link EconomyCaching} interface for caching player economy data.
  */
 public class EconomyCachingImpl implements EconomyCaching {
-    private static final Map<UUID, EconomyPlayer> cached = new HashMap<>();
+    private static final Map<UUID, EconomyPlayer> cached = new ConcurrentHashMap<>();
 
     /**
      * Asynchronously loads data for all players from their respective files.
